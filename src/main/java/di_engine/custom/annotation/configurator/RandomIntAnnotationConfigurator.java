@@ -9,10 +9,16 @@ import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
+import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
+import javax.lang.model.type.TypeMirror;
+import javax.lang.model.util.Elements;
+import javax.lang.model.util.Types;
+import javax.tools.Diagnostic;
 import java.lang.reflect.Field;
 import java.util.Set;
 import java.util.concurrent.ThreadLocalRandom;
+
 
 @SupportedAnnotationTypes("com.example.SomeAnnotation")
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
@@ -47,7 +53,24 @@ public class RandomIntAnnotationConfigurator extends AbstractProcessor implement
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-        // TODO проверить допустимые поля аннотации и условие upperBound > lowerBound на этапе процессинга
+//        if (roundEnv.processingOver())
+//            return false;
+//
+//        Elements elements = processingEnv.getElementUtils();
+//        Types types = processingEnv.getTypeUtils();
+//        TypeMirror expected = elements.getTypeElement(Integer.class.getCanonicalName()).asType();
+//
+//        TypeMirror type;
+//        for (Element element : roundEnv.getElementsAnnotatedWith(RandomInt.class)) {
+//            type = element.asType();
+//            if (!types.isSameType(type, expected))
+//                processingEnv.getMessager()
+//                        .printMessage(
+//                                Diagnostic.Kind.ERROR,
+//                                String.format("Invalid type of element %s!" +
+//                                        "RandomInt annotation is not accepted for %s field!", element, type)
+//                        );
+//        }
         return false;
     }
 }

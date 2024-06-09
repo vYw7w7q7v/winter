@@ -10,4 +10,6 @@ public class Apple {
         System.out.printf("apple dropped! weight = %s%n", weight + "");
     }
 
+
+
 }
