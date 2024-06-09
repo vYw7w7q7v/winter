@@ -2,6 +2,7 @@ package cs.vsu.winter;
 
 import di_engine.core.annotation.InitMethod;
 import di_engine.core.annotation.InjectByType;
+import di_engine.core.annotation.Singleton;
 import di_engine.custom.annotation.ReplaceMethod;
 
 public class Tree implements TreeIfc {

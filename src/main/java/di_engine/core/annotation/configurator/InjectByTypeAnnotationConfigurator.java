@@ -1,6 +1,6 @@
 package di_engine.core.annotation.configurator;
 
-import di_engine.core.Application;
+import di_engine.core.WinterApplication;
 import di_engine.core.Configurator;
 import di_engine.core.annotation.InjectByType;
 import lombok.SneakyThrows;
@@ -20,7 +20,7 @@ public class InjectByTypeAnnotationConfigurator implements Configurator {
             if (field.isAnnotationPresent(InjectByType.class)) {
                 field.setAccessible(true);
 
-                Object injectingValue = Application.getAppContext().createObject(field.getType());
+                Object injectingValue = WinterApplication.getAppContext().createObject(field.getType());
 
                 field.set(object, injectingValue);
             }

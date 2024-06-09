@@ -1,6 +1,6 @@
 package di_engine.db.annotation.configurator;
 
-import di_engine.core.Application;
+import di_engine.core.WinterApplication;
 import di_engine.core.Configurator;
 import di_engine.db.annotation.DBConnection;
 import lombok.SneakyThrows;
@@ -23,11 +23,11 @@ public class DBConnectionConfigurator implements Configurator {
                 field.setAccessible(true);
                 DBConnection DBConnectionFieldAnnotation = field.getAnnotation(DBConnection.class);
                 String db_name = DBConnectionFieldAnnotation.db_name();
-                Connection connection = Application.getAppContext().getConnection(String.format("%s_connection", db_name));
+                Connection connection = WinterApplication.getAppContext().getConnection(String.format("%s_connection", db_name));
                 if (connection == null) {
-                    String db_url = Application.getAppContext().getConfig().getConfigValue(db_name + "_url");
-                    String db_user = Application.getAppContext().getConfig().getConfigValue(db_name + "_user");
-                    String db_password = Application.getAppContext().getConfig().getConfigValue(db_name + "_password");
+                    String db_url = WinterApplication.getAppContext().getConfig().getConfigValue(db_name + "_url");
+                    String db_user = WinterApplication.getAppContext().getConfig().getConfigValue(db_name + "_user");
+                    String db_password = WinterApplication.getAppContext().getConfig().getConfigValue(db_name + "_password");
                     if (db_url == null || db_user == null) {
                         throw new RuntimeException(String.format("Не удалось подключиться к базе данных %s!!!\nПроверьте корректность полей %s_url, %s_user, %s_password!!!", db_name, db_name, db_name, db_name));
                     }
@@ -41,7 +41,7 @@ public class DBConnectionConfigurator implements Configurator {
                     }
 
                     field.set(object, connection);
-                    Application.getAppContext().putConnection(String.format("%s_connection", db_name), connection);
+                    WinterApplication.getAppContext().putConnection(String.format("%s_connection", db_name), connection);
                 }
 
                 field.set(object, connection);
