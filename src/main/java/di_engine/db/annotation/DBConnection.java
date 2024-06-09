@@ -1,4 +1,4 @@
-package di_engine.db;
+package di_engine.db.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

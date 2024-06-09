@@ -1,7 +1,8 @@
-package di_engine.db;
+package di_engine.db.annotation.configurator;
 
 import di_engine.core.Application;
 import di_engine.core.Configurator;
+import di_engine.db.annotation.DBConnection;
 import lombok.SneakyThrows;
 
 import java.lang.reflect.Field;

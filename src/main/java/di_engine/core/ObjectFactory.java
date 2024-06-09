@@ -1,8 +1,11 @@
 package di_engine.core;
 
+import di_engine.core.annotation.InitMethod;
 import di_engine.utils.PackageScannerUtils;
 import lombok.SneakyThrows;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -59,10 +62,10 @@ public class ObjectFactory {
     }
 
     public <T> T createObject(Class<T> type) {
-        T object = this.createNewInstance(type);
-        this.configure(object);
-        this.startInitMethods(object);
-        return this.proxyConfigure(object, type);
+        T object = createNewInstance(type);
+        configure(object);
+        startInitMethods(object);
+        return proxyConfigure(object, type);
     }
 
     @SneakyThrows
@@ -77,6 +80,27 @@ public class ObjectFactory {
     }
 
     private <T> void startInitMethods(T object) {
+        Class<?> tClass = object.getClass();
+        Method[] methods = tClass.getMethods();
+        List<Method> initMethods = new LinkedList<>();
+
+        for (Method method: methods) {
+            method.setAccessible(true);
+            if (method.isAnnotationPresent(InitMethod.class)) {
+                if (method.getParameterCount() != 0) throw new RuntimeException(
+                        String.format("InitMethod %s не должен содержать параметры!", method.getName())
+                );
+                initMethods.add(method);
+            }
+        }
+
+        for (Method initMethod : initMethods) {
+            try {
+                initMethod.invoke(object);
+            } catch (IllegalAccessException | InvocationTargetException exception) {
+                throw new RuntimeException(exception.getMessage());
+            }
+        }
     }
 
     private <T> T proxyConfigure(T object, Class<T> type) {
